@@ -95,10 +95,10 @@
               </div>
               <div class="col-md-6">
                 <div class="right-text">
-                  <h4>Пару слов </h4>
+                  <h4>Пару слов о себе</h4>
                   <p>
-                   Здравствуйте, меня зовут Георгий Тарасов и я начинающий специалист в области web технологий.
-                   Также я являюсь начинающем стартапером и пробую себя в разных направлениях.
+                   Здравствуйте, меня зовут Георгий Тарасов. Я начинающий специалист в области Web - технологий.
+                   Пробую себя в различных сферах, также занимаюсь стартапами.
                   </p>
                 </div>
               </div>
@@ -110,9 +110,10 @@
                 <div class="left-text">
                   <h4>Мои хобби</h4>
                   <p>
-                   Помимо изучания различный технологий в сфере IT, я 
+                   Помимо изучения различных технологий в сфере IT, я 
                    занимаюсь волонтерcкой деятельностью в стенах своего университета. 
-                   Недавно пробовал себя в роли тьютора в Золотом сечение в загородном лагере Таватуй.
+                   Благодаря активной деятельности в рамках проектной смены Уральского Горного Университета,
+                   испытал себя в роли тьютора в Фонде «Золотое сечение» на базе ЗОЦ "ТАВАТУЙ".                  
                   </p>
                 </div>
               </div>
@@ -279,7 +280,9 @@
       </section>
     </div>
 
-  
+
+ <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -287,6 +290,55 @@
     <script src="assets/js/owl-carousel.js"></script>
     <script src="assets/js/lightbox.js"></script>
     <script src="assets/js/custom.js"></script>
- 
+    <script>
+      //according to loftblog tut
+      $(".main-menu li:first").addClass("active");
+
+      var showSection = function showSection(section, isAnimate) {
+        var direction = section.replace(/#/, ""),
+          reqSection = $(".section").filter(
+            '[data-section="' + direction + '"]'
+          ),
+          reqSectionPos = reqSection.offset().top - 0;
+
+        if (isAnimate) {
+          $("body, html").animate(
+            {
+              scrollTop: reqSectionPos
+            },
+            800
+          );
+        } else {
+          $("body, html").scrollTop(reqSectionPos);
+        }
+      };
+
+      var checkSection = function checkSection() {
+        $(".section").each(function() {
+          var $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+          if (topEdge < wScroll && bottomEdge > wScroll) {
+            var currentId = $this.data("section"),
+              reqLink = $("a").filter("[href*=\\#" + currentId + "]");
+            reqLink
+              .closest("li")
+              .addClass("active")
+              .siblings()
+              .removeClass("active");
+          }
+        });
+      };
+
+      $(".main-menu").on("click", "a", function(e) {
+        e.preventDefault();
+        showSection($(this).attr("href"), true);
+      });
+
+      $(window).scroll(function() {
+        checkSection();
+      });
+    </script>
   </body>
 </html>
